@@ -143,7 +143,28 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var colIndex = majorDiagonalColumnIndexAtFirstRow;
+      if (majorDiagonalColumnIndexAtFirstRow < 0 ) {
+        colIndex = 0;
+      } 
+      var rowIndex = 0;
+      if (majorDiagonalColumnIndexAtFirstRow <= 0) {
+        rowIndex = - (majorDiagonalColumnIndexAtFirstRow);
+      } else {
+        rowIndex = 0;
+      }
+      var foundPiece = false;
+      while (this._isInBounds(rowIndex, colIndex)) {
+        if (this.attributes[rowIndex][colIndex]) {
+          if (foundPiece) {
+            return true;
+          }
+          foundPiece = true;
+        }
+        rowIndex++;
+        colIndex++;
+      }
+      return false; 
     },
 
     // test if any major diagonals on this board contain conflicts
