@@ -61,21 +61,26 @@ window.findNQueensSolution = function(n) {
   var board = new Board({n: n});
   var solution = [];
   
-  var findSolution = function(rowNumber, board) {
+  var findSolution = function(rowNumber, board, limit) {
     if (rowNumber > n - 1) {
       return;
     }
     var queenFound = false;
-    for (var col = 0; col < n; col++) {
+    for (var col = limit; col < n; col++) {
       board.togglePiece(rowNumber, col);
       queenFound = true;
       debugger;
       if (!board.hasAnyQueensConflicts() && queenFound) {
         findSolution(++rowNumber, board);
-        
+
       } else {
         board.togglePiece(rowNumber, col);
         queenFound = false;
+      }
+      if ((col === n - 1) && !queenFound) {
+        var rowElement = board.get(rowNumber - 1);
+        var limit = rowElement.indexOf(1);
+        findSolution(rowNumber - 1, board, limit);
       }
     }
   };
