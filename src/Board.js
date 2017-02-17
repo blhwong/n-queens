@@ -79,37 +79,20 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-     /* var foundPiece = false;
-      var row = this.get(rowIndex);
-      for (var i = 0; i < row.length; i++) {
-        if (row[i] && (!foundPiece)) {
-          foundPiece = true; 
-          continue;
-        }
-
-        if (row[i] && foundPiece) {
-          return true;
-        }
-      }
-      return false; */
-
       var sum = _.reduce(this.get(rowIndex), function(a, b ) {
         return a + b;
       }, 0);
-
       return (sum > 1);
-
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      //debugger;
-      for (var rows in this.attributes) {
+      for (var rows in this.rows()) {
         if (this.hasRowConflictAt(rows)) {
           return true;
         }
       }
-      return false; // fixme
+      return false;
     },
 
 
@@ -119,7 +102,7 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      var board = this.attributes;
+      var board = this.rows();
       var foundPiece = false;
       for (var rows in board) {
         if (board[rows][colIndex]) {
@@ -140,7 +123,7 @@
           return true;
         }
       }
-      return false; // fixme
+      return false;
     },
 
 
@@ -151,18 +134,15 @@
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
       var colIndex = majorDiagonalColumnIndexAtFirstRow;
-      if (majorDiagonalColumnIndexAtFirstRow < 0 ) {
-        colIndex = 0;
-      } 
       var rowIndex = 0;
       if (majorDiagonalColumnIndexAtFirstRow <= 0) {
+        colIndex = 0;
         rowIndex = - (majorDiagonalColumnIndexAtFirstRow);
-      } else {
-        rowIndex = 0;
       }
+
       var foundPiece = false;
       while (this._isInBounds(rowIndex, colIndex)) {
-        if (this.attributes[rowIndex][colIndex]) {
+        if (this.get(rowIndex)[colIndex]) {
           if (foundPiece) {
             return true;
           }
@@ -193,18 +173,14 @@
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
       var boardSize = this.attributes.n;
       var colIndex = minorDiagonalColumnIndexAtFirstRow;
-      if (minorDiagonalColumnIndexAtFirstRow >= boardSize ) {
-        colIndex = boardSize - 1;
-      } 
       var rowIndex = 0;
       if (minorDiagonalColumnIndexAtFirstRow >= boardSize) {
         rowIndex = minorDiagonalColumnIndexAtFirstRow - boardSize + 1;
-      } else {
-        rowIndex = 0;
+        colIndex = boardSize - 1;
       }
       var foundPiece = false;
       while (this._isInBounds(rowIndex, colIndex)) {
-        if (this.attributes[rowIndex][colIndex]) {
+        if (this.get(rowIndex)[colIndex]) {
           if (foundPiece) {
             return true;
           }
