@@ -32,10 +32,9 @@ window.findNRooksSolution = function(n) {
         findSolution(rowNumber + 1, board);
         if (solutionFound) {
           return;
-        } else if (n > 1 && board.attributes[rowNumber + 1].indexOf(1) < 0) {
+        } else if (n > 1 && !board.get(rowNumber + 1).includes(1)) {
           // findSolution not successful
           board.togglePiece(rowNumber, col);
-          continue;
         }
       } else {
         board.togglePiece(rowNumber, col);
@@ -88,10 +87,9 @@ window.findNQueensSolution = function(n) {
         findSolution(rowNumber + 1, board);
         if (solutionFound) {
           return;
-        } else if (n > 1 && board.attributes[rowNumber + 1].indexOf(1) < 0) {
-          // findSolution not successful
+        } else if (n > 1 && !board.get(rowNumber + 1).includes(1)) {
+          // findSolution  not successful
           board.togglePiece(rowNumber, col);
-          continue;
         }
       } else {
         board.togglePiece(rowNumber, col);
@@ -114,7 +112,6 @@ window.countNQueensSolutions = function(n) {
 
   var board = new Board({n: n});
   var solution = [];
-  var solutionFound = false;
   var findSolution = function(rowNumber, board) {
     if (rowNumber > n - 1) {
       solutionCount++;
