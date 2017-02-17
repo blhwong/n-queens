@@ -25,11 +25,9 @@ window.findNRooksSolution = function(n) {
       solutionFound = true;
       return;
     }
-    var queenFound = false;
     for (var col = 0; col < n; col++) {
       board.togglePiece(rowNumber, col);
-      queenFound = true;
-      if (!board.hasAnyRooksConflicts() && queenFound) {
+      if (!board.hasAnyRooksConflicts()) {
 
         findSolution(rowNumber + 1, board);
         if (solutionFound) {
@@ -37,12 +35,10 @@ window.findNRooksSolution = function(n) {
         } else if (n > 1 && board.attributes[rowNumber + 1].indexOf(1) < 0) {
           // findSolution not successful
           board.togglePiece(rowNumber, col);
-          queenFound = false;
           continue;
         }
       } else {
         board.togglePiece(rowNumber, col);
-        queenFound = false;
       }
     }
   };
@@ -86,24 +82,19 @@ window.findNQueensSolution = function(n) {
       solutionFound = true;
       return;
     }
-    var queenFound = false;
     for (var col = 0; col < n; col++) {
       board.togglePiece(rowNumber, col);
-      queenFound = true;
-      if (!board.hasAnyQueensConflicts() && queenFound) {
-
+      if (!board.hasAnyQueensConflicts()) {
         findSolution(rowNumber + 1, board);
         if (solutionFound) {
           return;
         } else if (n > 1 && board.attributes[rowNumber + 1].indexOf(1) < 0) {
           // findSolution not successful
           board.togglePiece(rowNumber, col);
-          queenFound = false;
           continue;
         }
       } else {
         board.togglePiece(rowNumber, col);
-        queenFound = false;
       }
     }
   };
@@ -129,16 +120,12 @@ window.countNQueensSolutions = function(n) {
       solutionCount++;
       return;
     }
-    var queenFound = false;
     for (var col = 0; col < n; col++) {
       board.togglePiece(rowNumber, col);
-      queenFound = true;
-      if (!board.hasAnyQueensConflicts() && queenFound) {
+      if (!board.hasAnyQueensConflicts()) {
         findSolution(rowNumber + 1, board);
-       
       }
       board.togglePiece(rowNumber, col);
-      queenFound = false;
     }
   };
 
