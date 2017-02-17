@@ -79,7 +79,7 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      var foundPiece = false;
+     /* var foundPiece = false;
       var row = this.get(rowIndex);
       for (var i = 0; i < row.length; i++) {
         if (row[i] && (!foundPiece)) {
@@ -91,7 +91,14 @@
           return true;
         }
       }
-      return false; 
+      return false; */
+
+      var sum = _.reduce(this.get(rowIndex), function(a, b ) {
+        return a + b;
+      }, 0);
+
+      return (sum > 1);
+
     },
 
     // test if any rows on this board contain conflicts

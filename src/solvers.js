@@ -16,18 +16,52 @@
 
 
 window.findNRooksSolution = function(n) {
+  // var board = new Board({n: n});
+  // var solution = [];
+  // for (var row = 0; row < n; row++) {
+
+  //   for (var col = 0; col < n; col++) {
+
+  //     board.togglePiece(row, col);
+  //     if (board.hasAnyRooksConflicts()) {
+  //       board.togglePiece(row, col);
+  //     }
+  //   }
+  // }
+
   var board = new Board({n: n});
   var solution = [];
-  for (var row = 0; row < n; row++) {
+  var solutionFound = false;
 
+  var findSolution = function(rowNumber, board) {
+    if (rowNumber > n - 1) {
+      solutionFound = true;
+      return;
+    }
+    var queenFound = false;
     for (var col = 0; col < n; col++) {
+      board.togglePiece(rowNumber, col);
+      queenFound = true;
+      // debugger;
+      if (!board.hasAnyRooksConflicts() && queenFound) {
 
-      board.togglePiece(row, col);
-      if (board.hasAnyRooksConflicts()) {
-        board.togglePiece(row, col);
+        findSolution(rowNumber + 1, board);
+        if (solutionFound) {
+          return;
+        } else if (n > 1 && board.attributes[rowNumber + 1].indexOf(1) < 0) {
+          // findSolution not successful
+          board.togglePiece(rowNumber, col);
+          queenFound = false;
+          continue;
+        }
+      } else {
+        board.togglePiece(rowNumber, col);
+        queenFound = false;
       }
     }
-  }
+  };
+
+  findSolution(0, board);
 
   for (var i = 0; i < n; i++) {
     solution.push(board.attributes[i]);
@@ -119,7 +153,7 @@ window.countNQueensSolutions = function(n) {
       // debugger;
       if (!board.hasAnyQueensConflicts() && queenFound) {
         findSolution(rowNumber + 1, board);
-        console.log('finished recursion');
+       
       }
       //   if (solutionFound) {
       //     console.log('solution Found');
